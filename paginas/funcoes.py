@@ -1253,7 +1253,7 @@ def gerar_relatorio_pet_html(pet_data, motivo_consulta=""):
                                 <td>{idx}</td>
                                 <td>{exame['nome_exame']}</td>
                                 <td>{'Sangue' if any(palavra in exame['nome_exame'].lower() for palavra in ['sangue', 'hemograma', 'bioquimic']) else 'Raio-X' if any(palavra in exame['nome_exame'].lower() for palavra in ['raio', 'radiograf', 'rx']) else 'Ultrassom' if any(palavra in exame['nome_exame'].lower() for palavra in ['ultra', 'ecograf']) else 'Urina' if any(palavra in exame['nome_exame'].lower() for palavra in ['urina', 'urinalis']) else 'Fezes' if any(palavra in exame['nome_exame'].lower() for palavra in ['fezes', 'parasit']) else 'Cardiológico' if any(palavra in exame['nome_exame'].lower() for palavra in ['cardiologico', 'coração', 'eco']) else 'Oftalmológico' if any(palavra in exame['nome_exame'].lower() for palavra in ['oftalmologic', 'olho', 'visão']) else 'Geral'}</td>
-                                <td>{exame["data_upload"].date().strftime("%d/%m/%Y") if hasattr(exame["data_upload"], "date") else str(exame["data_upload"])[:10] if exame["data_upload"] else 'N/A'}</td>
+                                <td>{exame.get("data_upload").date().strftime("%d/%m/%Y") if exame.get("data_upload") and hasattr(exame.get("data_upload"), "date") else str(exame.get("data_upload", ""))[:10] if exame.get("data_upload") else 'N/A'}</td>
                                 <td><a href="{exame.get('url_pdf', '#')}" target="_blank" class="exame-link">📄 Ver PDF</a></td>
                             </tr>
                             ''' for idx, exame in enumerate(exames, 1)])}
@@ -1280,12 +1280,12 @@ def gerar_relatorio_pet_html(pet_data, motivo_consulta=""):
                     <div class="acontecimento-item">
                         <div class="acontecimento-layout">
                             <div class="acontecimento-photo-col">
-                                {f'<img src="{acontecimento["url_foto"]}" alt="Foto do acontecimento" class="acontecimento-photo">' if acontecimento.get('url_foto') else '<div class="acontecimento-photo-placeholder">📷</div>'}
+                                {f'<img src="{acontecimento.get("url_foto", "")}" alt="Foto do acontecimento" class="acontecimento-photo">' if acontecimento.get('url_foto') else '<div class="acontecimento-photo-placeholder">📷</div>'}
                             </div>
                             <div class="acontecimento-info-col">
                                 <div class="acontecimento-header">
                                     <div class="acontecimento-date">
-                                        {acontecimento["data_hora"].strftime("%d/%m/%Y as %H:%M") if hasattr(acontecimento["data_hora"], "strftime") else str(acontecimento["data_hora"])[:19].replace("T", " as ") if acontecimento.get("data_hora") else 'Data não disponível'}
+                                        {acontecimento.get("data_hora").strftime("%d/%m/%Y as %H:%M") if acontecimento.get("data_hora") and hasattr(acontecimento.get("data_hora"), "strftime") else str(acontecimento.get("data_hora", ""))[:19].replace("T", " as ") if acontecimento.get("data_hora") else 'Data não disponível'}
                                     </div>
                                     <div class="acontecimento-number">{idx}</div>
                                 </div>
